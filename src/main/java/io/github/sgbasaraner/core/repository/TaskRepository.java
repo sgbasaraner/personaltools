@@ -15,6 +15,10 @@ public class TaskRepository {
         this.dataSource = dataSource;
     }
 
+    public Task getTask(String id) {
+        return dataSource.getTask(id);
+    }
+
     public Task createTask(Task task) {
         return dataSource.createTask(task);
     }
