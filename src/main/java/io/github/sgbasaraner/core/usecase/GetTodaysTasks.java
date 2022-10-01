@@ -2,20 +2,20 @@ package io.github.sgbasaraner.core.usecase;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import io.github.sgbasaraner.core.model.Task;
-import io.github.sgbasaraner.core.repository.TaskRepository;
 
 public class GetTodaysTasks {
-    final TaskRepository repository;
+    final GetTasksMatching getTasksMatching;
 
-    public GetTodaysTasks(TaskRepository repository) {
-        this.repository = repository;
+    public GetTodaysTasks(GetTasksMatching getTasksMatching) {
+        this.getTasksMatching = getTasksMatching;
     }
 
     public List<Task> run() {
         final var today = LocalDate.now();
-        return repository.getTasksByDeadlineDate(today);
+        return this.getTasksMatching.run(Optional.empty(), Optional.of(today));
     }
 
 }
