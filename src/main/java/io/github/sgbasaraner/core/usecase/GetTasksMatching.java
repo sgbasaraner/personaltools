@@ -18,6 +18,10 @@ public class GetTasksMatching {
     }
 
     public List<Task> run(Optional<Status> status, Optional<LocalDate> deadline) {
+        if (status.isEmpty() && deadline.isEmpty()) {
+            return repository.getAllTasks();
+        }
+
         final var set = new HashSet<Task>();
 
         status.map(s -> repository.getTasksByStatus(s))

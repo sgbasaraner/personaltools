@@ -2,6 +2,7 @@ package io.github.sgbasaraner.core.model;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 public class Task {
 
@@ -11,13 +12,13 @@ public class Task {
         InProgress
     }
 
-    final String id;
-    final String title;
-    final String notes;
-    final Status status;
-    final Optional<LocalDateTime> deadline;
+    public final UUID id;
+    public final String title;
+    public final String notes;
+    public final Status status;
+    public final Optional<LocalDateTime> deadline;
 
-    public Task(String id, String title, String notes, Optional<LocalDateTime> deadline, Status status) {
+    public Task(UUID id, String title, String notes, Optional<LocalDateTime> deadline, Status status) {
         this.id = id;
         this.title = title;
         this.notes = notes;

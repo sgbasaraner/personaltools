@@ -2,6 +2,7 @@ package io.github.sgbasaraner.core.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import io.github.sgbasaraner.core.datasource.TaskDataSource;
 import io.github.sgbasaraner.core.model.Task;
@@ -15,7 +16,7 @@ public class TaskRepository {
         this.dataSource = dataSource;
     }
 
-    public Task getTask(String id) {
+    public Task getTask(UUID id) {
         return dataSource.getTask(id);
     }
 
