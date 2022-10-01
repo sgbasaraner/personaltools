@@ -1,4 +1,4 @@
-package io.github.sgbasaraner;
+package io.github.sgbasaraner.platform.controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
