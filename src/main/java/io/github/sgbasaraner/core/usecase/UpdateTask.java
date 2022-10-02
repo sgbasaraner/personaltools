@@ -1,5 +1,9 @@
 package io.github.sgbasaraner.core.usecase;
 
+import java.time.LocalDateTime;
+
+import javax.ws.rs.BadRequestException;
+
 import io.github.sgbasaraner.core.model.Task;
 import io.github.sgbasaraner.core.repository.TaskRepository;
 
@@ -11,6 +15,15 @@ public class UpdateTask {
     }
 
     public Task run(Task task) {
-        return repository.updateTask(task);
+        final var currentTask = repository.getTask(task.id);
+        return repository.updateTask(validate(currentTask, task));
+    }
+
+    private Task validate(Task currentTask, Task requestedUpdate) {
+        if (requestedUpdate.deadline.isPresent() && requestedUpdate.deadline.get().isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("Deadline must be in the future");
+        }
+
+        return requestedUpdate;
     }
 }
