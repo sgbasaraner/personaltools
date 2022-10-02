@@ -39,4 +39,8 @@ public class TaskRepository {
     public List<Task> getTasksMatching(String string) {
         return dataSource.getTasksMatching(string);
     }
+
+    public Task updateTask(Task task) {
+        return dataSource.updateTask(task);
+    }
 }

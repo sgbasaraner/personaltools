@@ -1,7 +1,9 @@
 package io.github.sgbasaraner.platform.controller;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.ws.rs.BadRequestException;
@@ -16,10 +18,12 @@ import org.jboss.resteasy.reactive.RestPath;
 import org.jboss.resteasy.reactive.RestQuery;
 
 import io.github.sgbasaraner.core.model.Task;
+import io.github.sgbasaraner.core.model.Task.Status;
 import io.github.sgbasaraner.core.usecase.CreateTask;
 import io.github.sgbasaraner.core.usecase.GetTask;
 import io.github.sgbasaraner.core.usecase.GetTasksMatching;
 import io.github.sgbasaraner.core.usecase.SearchTasks;
+import io.github.sgbasaraner.core.usecase.UpdateTask;
 import io.github.sgbasaraner.platform.DI;
 
 @Path("/task")
@@ -31,6 +35,7 @@ public class TaskResource {
     private final GetTasksMatching getTasksMatching = new GetTasksMatching(DI.instance.taskRepository);
     private final SearchTasks searchTasks = new SearchTasks(DI.instance.taskRepository);
     private final CreateTask createTask = new CreateTask(DI.instance.taskRepository);
+    private final UpdateTask updateTask = new UpdateTask(DI.instance.taskRepository);
 
     @GET
     @Path("/{id}")
@@ -59,28 +64,27 @@ public class TaskResource {
             @RestQuery String status,
             @RestQuery String deadline,
             @RestQuery String query) {
-        // TODO
+
         if (query != null) {
             LOG.info("Received query request, string: " + query);
-            return Collections.emptyList();
+            return searchTasks.run(query);
         }
 
+        final var parsedStatus = Optional.ofNullable(status).map(s -> Status.valueOf(s));
+        final var parsedDeadline = Optional.ofNullable(deadline).map(d -> LocalDate.parse(deadline));
+
         LOG.info("Received multiple task request, status: " + status + ", deadline: " + deadline);
-        return Collections.emptyList();
+        return getTasksMatching.run(parsedStatus, parsedDeadline);
     }
 
     @PUT
     public Task createTask(Task task) {
-        // TODO
-        LOG.info("Received create task request, id: " + task.id);
-        return null;
+        return createTask.run(task);
     }
 
     @POST
     public Task updateTask(Task task) {
-        // TODO
-        LOG.info("Received update task request, id: " + task.id);
-        return null;
+        return updateTask.run(task);
     }
 
 }

@@ -19,4 +19,6 @@ public interface TaskDataSource {
     public List<Task> getTasksByDeadlineDate(LocalDate deadlineDate);
 
     public List<Task> getTasksMatching(String string);
+
+    public Task updateTask(Task task);
 }
